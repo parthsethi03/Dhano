@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposal Journey</title>
+    <style>
+        body {
+            background-image:url(dhanoo.jpg);
+            background-size: auto;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: auto;
+            
+        }
+        .questionnaire {
+            max-width: 600px;
+            margin:auto;
+            text-align: center;
+            justify-content:center;
+            background-color: rgba(255, 255, 255, 0.8); /* Optional: adds a slight white background to enhance text visibility */
+            border-radius: 15px;
+        }
+        .question {
+            display: none;
+        }
+        .active {
+            display: block;
+        }
+        .navigation-buttons {
+            margin-top: 20px;
+        }
+        h2 {
+            color: #333; /* Adjust text color for better readability */
+        }
+        button, textarea {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="questionnaire">
+        <div id="welcome" class="question active">
+            <h2>Welcome! Ready to start the proposal journey?</h2>
+            <button onclick="nextQuestion()">Start Proposal</button>
+        </div>
+        <div id="q1" class="question">
+            <h2>Hi bokku! How you doing?</h2>
+            <button onclick="nextQuestion()">Good</button>
+            <button onclick="nextQuestion()">Awesome</button>
+        </div>
+        <div id="q2" class="question">
+            <h2>Have you been missing me lately?</h2>
+            <button onclick="nextQuestion()">Yes</button>
+            <button onclick="handleQ2No()">No</button>
+        </div>
+        <div id="q2-reconsider" class="question">
+            <h2>I think you have been, think again.</h2>
+            <button onclick="nextQuestion()">Yes</button>
+            <button onclick="nextQuestion()">Yes</button>
+        </div>
+        <div id="q3" class="question">
+            <h2>So how do you feel about our friendship this far?</h2>
+            <button onclick="nextQuestion()">Great</button>
+            <button onclick="nextQuestion()">Best</button>
+        </div>
+        <div id="q4" class="question">
+            <h2>So, do you like the bokku me or the cute me?</h2>
+            <button onclick="nextQuestion()">Bokku</button>
+            <button onclick="nextQuestion()">Cute</button>
+            <button onclick="nextQuestion()">Both</button>
+        </div>
+        <div id="q5" class="question">
+            <h2>What do you like about me the most?</h2>
+            <textarea id="q5-answer" rows="4" cols="50"></textarea>
+            <button onclick="handleQ5()">Submit</button>
+        </div>
+        <div id="q6" class="question">
+            <h2>So out of all the times we have met outside Ranchi, which one did you like the most?</h2>
+            <button onclick="nextQuestion()">Sep 2023</button>
+            <button onclick="nextQuestion()">Nov 2023</button>
+            <button onclick="nextQuestion()">Jan 2023</button>
+            <button onclick="nextQuestion()">March 2023 (Pondi)</button>
+            <button onclick="nextQuestion()">Ranchi one only</button>
+        </div>
+        <div id="q7" class="question">
+            <h2>Well, to be honest I am going crazy thinking about you all the time...</h2>
+            <button onclick="nextQuestion()">Yes</button>
+            <button onclick="nextQuestion()">Yes</button>
+        </div>
+        <div id="q8" class="question">
+            <h2>Dekho mera angrezi itna bhi kuch khaas hai nahi par thora mora khudse likh lete hai...</h2>
+            <button onclick="nextQuestion()">Okays</button>
+        </div>
+        <div id="q9" class="question">
+            <h2>Whenever I think of you, my heart does a happy dance...</h2>
+            <button onclick="nextQuestion()">Yes</button>
+            <button onclick="handleQ9No()">No</button>
+        </div>
+        <div id="q9-reconsider" class="question">
+            <h2>I think by mistake you chose the wrong option, please choose again.</h2>
+            <button onclick="nextQuestion()">Yes</button>
+            <button onclick="handleQ9No()">No</button>
+        </div>
+        <div id="q9-popup1" class="question">
+            <h2>Please</h2>
+            <button onclick="nextQuestion()">Please</button>
+            <button onclick="handleQ9No()">No</button>
+        </div>
+        <div id="q9-popup2" class="question">
+            <h2>Okay cutie</h2>
+            <button onclick="nextQuestion()">Okay cutie</button>
+            <button onclick="handleQ9No()">No</button>
+        </div>
+        <div id="q9-final" class="question">
+            <h2>I am sorry but you haven't got another option cutie bokku ❤</h2>
+            <button onclick="nextQuestion()">Continue</button>
+        </div>
+        <div id="final-message" class="question">
+            <h2>Will you be my girlfriend?</h2>
+            <button onclick="finishProposal()">Accept Proposal</button>
+        </div>
+        <div class="navigation-buttons">
+            <button onclick="prevQuestion()">Previous</button>
+            <button onclick="nextQuestion()">Next</button>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = 0;
+        const questions = document.querySelectorAll('.question');
+        const totalQuestions = questions.length;
+
+        function showQuestion(index) {
+            questions.forEach((question, i) => {
+                question.classList.remove('active');
+                if (i === index) {
+                    question.classList.add('active');
+                }
+            });
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < totalQuestions - 1) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+            }
+        }
+
+        function handleQ2No() {
+            showQuestion(3); // Show reconsider question
+        }
+
+        function handleQ5() {
+            const answer = document.getElementById('q5-answer').value;
+            if (answer) {
+                alert("Well I didn't expect that.");
+                nextQuestion();
+            } else {
+                alert("Please provide an answer.");
+            }
+        }
+
+        function handleQ9No() {
+            if (currentQuestion === 13) {
+                showQuestion(14); // Show popup 1
+            } else if (currentQuestion === 14) {
+                showQuestion(15); // Show popup 2
+            } else if (currentQuestion === 15) {
+                showQuestion(16); // Show final message
+            }
+        }
+
+        function finishProposal() {
+            alert("Congratulations on your proposal!");
+        }
+    </script>
+</body>
+</html>
+
